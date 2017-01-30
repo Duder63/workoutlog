@@ -30,7 +30,11 @@ var User = sequelize.define('user', {
 //matches the model we defined
 //Doesn't drop the db
 User.sync(); 
-// User({ force: true }); //drops the table compeletly (line 27ish)
+
+/*******
+******DANGER: THIS WILL DROP THE USER TABLE***
+//User.sync({ force: true }); //drops the table compeletly
+******/
 
 app.use(bodyParser.json());
 
