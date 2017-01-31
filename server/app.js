@@ -20,6 +20,9 @@ app.use(require('./middleware/headers'));
 
 app.use('/api/user', require('./routes/user.js'));
 
+//login route
+app.use('/api/login', require('./routes/session.js'));
+
 // send a response when client sends a test with a GET request
 app.use('/api/test', function(req, res){
 	res.send("Hello World");
