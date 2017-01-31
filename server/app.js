@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var express = require('express');
 var app = express();
 
@@ -17,6 +19,7 @@ app.use(bodyParser.json());
 
 // to allow client and our local server to communicate (gets around browser safeguard)
 app.use(require('./middleware/headers'));
+app.use(require('./middleware/validate-session'));
 
 app.use('/api/user', require('./routes/user.js'));
 
