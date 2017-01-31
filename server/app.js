@@ -4,37 +4,25 @@ var app = express();
 //help the server parse out incoming requests
 var bodyParser = require('body-parser');
 
-var Sequelize = require('sequelize');
+var sequelize = require('./db');
+var User = sequelize.import('./models/user');
 
-var sequelize = new Sequelize('workoutlog', 'postgres', 'db^GMS.11', {
-	host: 'localhost',
-	dialect: 'postgres'
+// to allow client and our local server to communicate (gets around browser safeguard)
+app.use(require('./middleware/headers'));
+
+// send a response when client sends a test with a GET request
+app.use('/api/test', function(req, res){
+	res.send("Hello World");
 });
 
-sequelize.authenticate().then(
-	function() {
-		console.log('connected to workoutlog postgres db');
-	},
-	function(err){
-		console.log(err);
-	}
-);
-
-//build a user model in sqllize
-var User = sequelize.define('user', {
-	username: Sequelize.STRING,
-	passwordhash: Sequelize.STRING,
+app.listen(3000, function(){
+	console.log("app is listening on port 3000");
 });
 
 //creates the table in postgres
 //matches the model we defined
 //Doesn't drop the db
-User.sync(); 
-
-/*******
-******DANGER: THIS WILL DROP THE USER TABLE***
-//User.sync({ force: true }); //drops the table compeletly
-******/
+User.sync(); // sync({ force: true }); WARNING: THIS WILL DROP THE TABLE!
 
 app.use(bodyParser.json());
 
@@ -63,14 +51,3 @@ app.post('/api/user', function(req, res){
 	);
 });
 
-// to allow client and our local server to communicate (gets around browser safeguard)
-app.use(require('./middleware/headers'));
-
-// send a response when client sends a test with a GET request
-app.use('/api/test', function(req, res){
-	res.send("Hello World");
-});
-
-app.listen(3000, function(){
-	console.log("app is listening on port 3000");
-});
