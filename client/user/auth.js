@@ -12,10 +12,8 @@ $(function(){
 					password: password
 				}
 			};
-		//}
 
-
-			//signup post
+			//signup
 			var signup = $.ajax({
 				type: "POST",
 				url: WorkoutLog.API_BASE + "user",
@@ -36,21 +34,61 @@ $(function(){
 				$("#loginout").text("Logout");
 				console.log("Great job signing up!");
 
-					}).fail(function(){
+					})
+					.fail(function(){
 						$("#su_error").text("There was an issue with sign up").show();
 					});
 
+				},
+
+			//login
+			login: function() {
+				//login variables
+			   	var username = $("#li_username").val();
+			   	var password = $("#li_password").val();
+			   	var user = {user:  {username: username, password: password }};
+				var login = $.ajax({
+					type: "POST",
+					url: WorkoutLog.API_BASE + "login",
+					data: JSON.stringify( user ),
+					contentType: "application/json"
+			});
+
+			//login done/fail
+			login.done(function(data){
+				if(data.sessionToken){
+					WorkoutLog.setAuthHeader(data.sessionToken);
 				}
-});
+				// TODO: add logic to set user and auth token
+				$("#login-modal").modal("hide");
+				$(".disabled").removeClass("disabled");
+				$("#loginout").text("Logout");
+				})
+				.fail(function(){
+					$("#li_error").text("There was an issue with sign up").show();
+				});
+			},
 
-			
-		
-		//login method
+			//loginout
+			loginout: function(){
+				if(window.ocalStorage.getItem("sessionToken")){
+					window.localStorage.removeItem("sessionToken");
+					$("#loginout").text("Login");
+				}
+				//TODO: on logout make sure stuff is disabled
+			}
+		});
 
-		//loginout method	
 
 	//bind events
-$("#signup").on("click", WorkoutLog.signup);
+	$("#login").on("click", WorkoutLog.login);
+	$("#signup").on("click", WorkoutLog.signup);
+	$("#loginout").on("click", WorkoutLog.loginout);
+
+	if(window.localStorage.getItem("sessionToken")){
+		$("#loginout").text("Logout");
+	}
+
 });
 	
 
