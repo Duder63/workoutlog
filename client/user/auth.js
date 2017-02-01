@@ -71,7 +71,7 @@ $(function(){
 
 			//loginout
 			loginout: function(){
-				if(window.ocalStorage.getItem("sessionToken")){
+				if(window.localStorage.getItem("sessionToken")){
 					window.localStorage.removeItem("sessionToken");
 					$("#loginout").text("Login");
 				}
