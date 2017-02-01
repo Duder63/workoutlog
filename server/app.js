@@ -13,8 +13,9 @@ var User = sequelize.import('./models/user');
 //creates the table in postgres
 //matches the model we defined
 //Doesn't drop the db
-User.sync(); // sync({ force: true }); WARNING: THIS WILL DROP THE TABLE!
-
+//User.sync(); 
+// User({ force: true }); WARNING: THIS WILL DROP THE TABLE!
+sequelize.sync();
 app.use(bodyParser.json());
 
 // to allow client and our local server to communicate (gets around browser safeguard)
@@ -25,6 +26,7 @@ app.use('/api/user', require('./routes/user.js'));
 
 //login route
 app.use('/api/login', require('./routes/session.js'));
+app.use('/api/definition', require('./routes/definition.js'));
 
 // send a response when client sends a test with a GET request
 app.use('/api/test', function(req, res){
