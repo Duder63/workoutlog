@@ -27,7 +27,7 @@ app.use('/api/user', require('./routes/user.js'));
 //login route
 app.use('/api/login', require('./routes/session.js'));
 app.use('/api/definition', require('./routes/definition.js'));
-app.use('/api/wrkoutLog', require('./routes/log.js'));
+app.use('/api/log', require('./routes/log.js'));
 
 // send a response when client sends a test with a GET request
 app.use('/api/test', function(req, res){

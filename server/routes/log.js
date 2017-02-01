@@ -1,29 +1,29 @@
 var router = require('express').Router();
 var sequelize = require('../db.js');
+var Log = sequelize.import('../models/log');
 var User = sequelize.import('../models/user');
-var Definition = sequelize.import('../models/log');
+var Definition = sequelize.import('../models/definition');
+
 
 router.post('/', function(req, res){
 	//variables
-	var logresult = req.body.wrkoutLog.result;
-	var workoutSelect = req.body.wrkoutLog.workouts;
-	var lognotes = req.body.wrkoutLog.notes;
-	var owner = req.user.id;
+	var description = req.body.log.description;
+	var result = req.body.log.result;
+	var owner = req.user;
+	var definition = req.body.log.def;	
 
 	//methods
 	Log
 		.create({
-			logresult: logresult,
-			workoutSelect: workoutSelect,
-			lognotes: lognotes,
-			owner: owner
+			description: description,
+			result: result,
+			owner: user.id,
+			def: definition
 		})
 		.then(
 			//success
-			function createSuccess(wrkoutLog){
-				res.json({
-					wrkoutLog: wrkoutLog
-				});
+			function createSuccess(log){
+				res.json(log);
 			},
 			//error
 			function createError(err){
