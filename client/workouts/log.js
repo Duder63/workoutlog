@@ -41,6 +41,10 @@ $(function() {
 
 		      	logger.done(function(data) {
 	      			WorkoutLog.log.workouts.push(data);
+
+	      			$("#log-decription").val("");
+	      			$("#log-result").val("");
+	      			$('a[href="#history"]').tab('show');
 		      	});
 			},
  
