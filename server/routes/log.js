@@ -1,53 +1,48 @@
 var router = require('express').Router();
-var sequelize = require('../db.js');
+var sequelize = require('../db');
 var Log = sequelize.import('../models/log');
 var User = sequelize.import('../models/user');
 var Definition = sequelize.import('../models/definition');
 
+router.post('/', function(req, res) {
+    // req has some body properties that have a username and pwd
+    var description = req.body.log.description; 
+    var result = req.body.log.result; 
+    var user = req.user;
+    var definition = req.body.log.def;
+   
 
-router.post('/', function(req, res){
-	//variables
-	var description = req.body.log.description;
-	var result = req.body.log.result;
-	var owner = req.user;
-	var definition = req.body.log.def;	
-
-	//methods
-	Log
-		.create({
-			description: description,
-			result: result,
-			owner: user.id,
-			def: definition
-		})
-		.then(
-			//success
-			function createSuccess(log){
-				res.json(log);
-			},
-			//error
-			function createError(err){
-				res.send(500, err.message);
-			}
-		);
+    // Use our sequelize model to create log
+  	Log 
+	    .create({ 
+	    	description: description,
+	    	result: result,
+	    	owner: user.id,
+	    	def: definition
+	    })
+	    .then(
+	    	function createSuccess(log){
+	    		res.json(log);
+	    	}, 
+		    function createError(err){
+		        res.send(500, err.message);
+		    }
+	    );
 });
 
 router.get('/', function(req, res){
 	var userid = req.user.id;
 
 	Log
-	//findAll by owner
 	.findAll({
 		where: { owner: userid }
 	})
 
 	.then(
-		//success
 		function findAllSuccess(data){
-			//console.log(data);
+			// console.log(data);
 			res.json(data);
 		},
-		//error
 		function findAllError(err){
 			res.send(500, err.message);
 		}
@@ -55,5 +50,6 @@ router.get('/', function(req, res){
 });
 
 module.exports = router;
+
 
 

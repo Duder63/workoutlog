@@ -15,7 +15,7 @@ var User = sequelize.import('./models/user');
 //Doesn't drop the db
 //User.sync(); 
 // User({ force: true }); WARNING: THIS WILL DROP THE TABLE!
-sequelize.sync();
+sequelize.sync({ force: true });
 app.use(bodyParser.json());
 
 // to allow client and our local server to communicate (gets around browser safeguard)

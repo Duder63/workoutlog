@@ -1,54 +1,70 @@
-$(function(){
+$(function() {
 	$.extend(WorkoutLog, {
-		wrkoutLog: {
-			userLogs: [],
+		log: {
+			workouts: [],
 
-			create: function(){
-				var logit = {
-					result: $("#log-result").val(),
-					workouts: $("#log-workoutselect").val(),
-					notes: $("#log-notes").val()
-				};
-				var postData = { wrkoutLog: logit };
-				var define = $.ajax({
-					type: "POST",
-					url: WorkoutLog.API_BASE + "wrkoutLog",
-					data: JSON.stringify(postData),
-					contentType: "application/json"
-				});
-
-				define.done(function(data){
-					WorkoutLog.wrkoutLog.userLogs.push(data.wrkoutLog);
-				});
+			setDefinitions: function() {
+				var defs = WorkoutLog.definition.userDefinitions;
+				var len = defs.length;
+				var opts;
+				for (var i = 0; i < len; i++) {
+					opts += "<option value='" + defs[i].id +"'>" + defs[i].description + "</option>";
+				}
+				$("#log-definition").children().remove();
+				$("#log-definition").append(opts);
 			},
 
-			fetchAll: function(){
-				var fetchLogits = $.ajax({
-					type: "GET",
-					url: WorkoutLog.API_BASE + "wrkoutLog",
-					headers: {
-						"authorization": window.localStorage.getItem("sessionToken")
-					}
-				})
-				.done(function(data){
-					WorkoutLog.wrkoutLog.userLogs = data;
-				})
-				.fail(function(err){
-					console.log(err);
-				});
+			setHistory: function() {
+				var history = WorkoutLog.log.workouts;
+				var len = history.length;
+				var lis = "";
+					for (var i = 0; i < len; i++) {
+					lis += "<li class='list-group-item'>" + history[i].id + " - " + history[i].result + "</li>";
+				}
+				$("#history-list").children().remove();
+				$("#history-list").append(lis);
+			},
+
+			create: function() {
+				var itsLog = { 
+		        	desc: $("#log-description").val(),
+		         	result: $("#log-result").val(),
+		         	def: $("#log-definition option:selected").text()
+		      	};
+		      	var postData = { log: itsLog };
+		      	var logger = $.ajax({
+		         	type: "POST",
+		         	url: WorkoutLog.API_BASE + "log",
+		         	data: JSON.stringify(postData),
+		         	contentType: "application/json"
+		      	});
+
+		      	logger.done(function(data) {
+	      			WorkoutLog.log.workouts.push(data);
+		      	});
+			},
+ 
+ 			fetchAll: function() {
+				var fetchDefs = $.ajax({
+			         type: "GET",
+			         url: WorkoutLog.API_BASE + "log",
+			         headers: {
+			         	"authorization": window.localStorage.getItem("sessionToken")
+			         }
+			      })
+			      .done(function(data) {
+			         WorkoutLog.log.workouts = data;
+			      })
+			      .fail(function(err) {
+			         console.log(err);
+			      });
 			}
 		}
 	});
 
-	//bindings
-	$("#log-save").on("click", WorkoutLog.wrkoutLog.create);
-
-	//fetch definitions if we already are authenticated and refreshed
-	if(window.localStorage.getItem("sessionToken")){
-		WorkoutLog.wrkoutLog.fetchAll();
-	}
-
+	$("#log-save").on("click", WorkoutLog.log.create);
+	   // fetch history if we already are authenticated and refreshed
+   if (window.localStorage.getItem("sessionToken")) {
+      WorkoutLog.log.fetchAll();
+   }
 });
-
-
-
