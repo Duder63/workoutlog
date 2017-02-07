@@ -15,6 +15,7 @@
 		<li><a href="#log" data-toggle="tab" class="disabled">Log</a></li>
 		<li><a href="#history" data-toggle="tab" class="disabled">View History</a></li>
 		<a href="#update-log" data-toggle="tab" class="disabled" type="hidden"></a>
+		<li><a href="#goal" data-toggle="tab" class="disabled">Goal</a></li>
 	</ul>
 
 	<div class="container">
@@ -74,7 +75,17 @@
 		      <ul class="list-group" id="history-list">
 		      </ul>
 	      </div>
-		</div>
+
+	      <!-- GOAL -->
+	      <div class="tab-pane fade" id="goal">
+		      <h2>Goal</h2>
+		      <label>Result</label>
+		      <input type="text" class="form-control" id="goal-result" />
+		      <label>Goal</label>
+		      <textarea class="form-control" id="goal-description" rows="3"></textarea>
+		      <button id="goal-save" class="btn btn-primary">Save</button>
+	      </div>		
+	    </div>
 	</div>
 
 
@@ -134,6 +145,7 @@
 <script src="./user/auth.js"></script>
 <script src="./workouts/define.js"></script>
 <script src="./workouts/log.js"></script>
+<script src="./workouts/goal.js"></script>
 
 </body>
 </html>
