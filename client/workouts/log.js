@@ -21,15 +21,15 @@ $(function() {
 				var len = history.length;
 				var lis = "";
 					for (var i = 0; i < len; i++) {
-					lis += "<li class='list-group-item'>" +
+					lis += "<td class='list-group-item table-extra'>" +
 					// history[i].id + " - " +
 					history[i].def + " - " +
 					history[i].result + " " +
 					// pass the log.id into the button's id attribute // watch your quotes!
-					"<div class='pull-right'>" +
-						"<button id='" + history[i].id + "' class='update'><strong>U</strong></button>" +
-						"<button id='" + history[i].id + "' class='remove'><strong>X</strong></button>" +
-					"</div></li>";
+					"<div class='pull-right btn-group' role='group'>" +
+						"<button class='btn btn-warning btn-sm' id='" + history[i].id + "' class='update'><strong>U</strong></button>" +
+						"<button class='btn btn-warning btn-sm' id='" + history[i].id + "' class='remove'><strong>X</strong></button>" +
+					"</div></td>";
 				}
 				$("#history-list").children().remove();
 				$("#history-list").append(lis);

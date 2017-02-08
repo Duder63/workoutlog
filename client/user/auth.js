@@ -32,7 +32,7 @@ $(function(){
 
 				$("#signup-modal").modal("hide");
 				$(".disabled").removeClass("disabled");
-				$("#loginout").text("Logout");
+				$("#loginout").text("Logout, " + username);
 
 				$('a[href="#define"]').tab('show');
 				$("#su_username").val("");
@@ -68,7 +68,7 @@ $(function(){
 				// TODO: add logic to set user and auth token
 				$("#login-modal").modal("hide");
 				$(".disabled").removeClass("disabled");
-				$("#loginout").text("Logout");
+				$("#loginout").text("Logout, " + username);
 
 				$("#li_username").val("");
 				$("#li_password").val("");
